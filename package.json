@@ -6,13 +6,15 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
-    "start": "node build/dev-server.js",
+    "start": "node server.js",
     "build": "node build/build.js"
   },
   "dependencies": {
     "gauge-chart": "^0.5.3",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+	"vue-router": "^3.0.1",
+	"express": "~4.9.8",
+    "serve-static": "^1.10.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.5",
