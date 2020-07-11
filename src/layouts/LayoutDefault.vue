@@ -11,7 +11,7 @@
     <div class="header-area" id="headerArea">
       <div v-if="isCommonPage" class="container h-100 d-flex align-items-center justify-content-between">
         <!-- Logo Wrapper-->
-        <div class="logo-wrapper" v-on:click="setActive('home')"><router-link to="/"><img src="../assets/img/logo-small.png" alt=""></router-link></div>
+        <div class="logo-wrapper" v-on:click="setActive('home')"><router-link to="/home"><img src="../assets/img/logo-small.png" alt=""></router-link></div>
         <!-- Search Form-->
         <div class="top-search-form">
           <form action="" method="POST">
@@ -68,7 +68,7 @@
       <div class="container h-100 px-0">
         <div class="suha-footer-nav h-100">
           <ul class="h-100 d-flex align-items-center justify-content-between">
-            <li v-on:click="setActive('home')" :class="{ active: isActive('home') }"><router-link to="/"><i class="lni lni-home"></i>Home</router-link></li>
+            <li v-on:click="setActive('home')" :class="{ active: isActive('home') }"><router-link to="/home"><i class="lni lni-home"></i>Home</router-link></li>
             <li v-on:click="setActive('alldevice')" :class="{ active: isActive('alldevice') }"><router-link to="/alldevice"><i class="lni lni-display-alt"></i>Devices</router-link></li>
             <li v-on:click="setActive('setting')" :class="{ active: isActive('setting') }"><router-link to="/setting"><i class="lni lni-cog"></i>Settings</router-link></li>
           </ul>

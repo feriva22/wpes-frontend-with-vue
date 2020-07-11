@@ -50,6 +50,7 @@
 	</div>
 
 	 <!-- Footer Nav-->
+	 <!--
     <div class="footer-nav-area" id="footerNav">
       <div class="container h-100 px-0">
         <div class="suha-footer-nav h-100">
@@ -61,6 +62,7 @@
         </div>
       </div>
     </div>
+	-->
 
   </div>
 </template>
