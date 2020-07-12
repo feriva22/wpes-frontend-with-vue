@@ -4,7 +4,7 @@
       	<div class="login-wrapper d-flex align-items-center justify-content-center text-center">               
 		<div class="container">
 			<div class="row justify-content-center">
-			<div class="col-12 col-sm-9 col-md-7 col-lg-6 col-xl-5"><img class="big-logo" src="../_assets/img/logo-white.png" alt="">
+			<div class="col-12 col-sm-9 col-md-7 col-lg-6 col-xl-5"><img class="big-logo" src="../assets/img/logo-white.png" alt="">
 				<!-- Register Form-->
 				<div class="register-form mt-5 px-4">
 				<form action="forget-password-success.html" method="post">
@@ -28,8 +28,6 @@ export default {
   name: 'ForgotPassword',
   created() {
 	this.$emit('update:layout','div');
-	//resset login status
-	this.$store.dispatch('authentication/logout');
   },
   data () {
     return {

@@ -11,7 +11,7 @@
     <div class="header-area" id="headerArea">
       <div v-if="isCommonPage" class="container h-100 d-flex align-items-center justify-content-between">
         <!-- Logo Wrapper-->
-        <div class="logo-wrapper" v-on:click="setActive('home')"><router-link to="/home"><img src="../_assets/img/logo-small.png" alt=""></router-link></div>
+        <div class="logo-wrapper" v-on:click="setActive('home')"><router-link to="/home"><img src="../assets/img/logo-small.png" alt=""></router-link></div>
         <!-- Search Form-->
         <div class="top-search-form">
           <form action="" method="POST">
@@ -40,7 +40,7 @@
     <div class="suha-sidenav-wrapper" id="sidenavWrapper">
       <!-- Sidenav Profile-->
       <div class="sidenav-profile">
-        <div class="user-profile"><img src="../_assets/img/9.jpg" alt=""></div>
+        <div class="user-profile"><img src="../assets/img/9.jpg" alt=""></div>
         <div class="user-info">
           <h6 class="user-name mb-0">Suha Jannat</h6>
           <p class="available-balance">Balance <span>$<span class="counter">523.98</span></span></p>

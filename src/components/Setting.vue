@@ -64,15 +64,6 @@
               </div>
             </div>
           </div>
-		  <div class="card settings-card">
-            <div class="card-body">
-              <!-- Single Settings-->
-              <div class="single-settings d-flex align-items-center justify-content-between">
-                <div class="title"><i class="lni lni-lock"></i><span>Logout</span></div>
-                <div class="data-content"><router-link to="/login"><i class="lni lni-chevron-right"></i></router-link></div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
