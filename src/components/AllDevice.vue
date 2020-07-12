@@ -10,7 +10,7 @@
             <!-- Single Blog Card-->
             <div class="col-12 col-sm-6 col-lg-4">
               <div class="card blog-card list-card mb-3">
-                <div class="post-img"><img src="../assets/img/wpes-device.png" alt=""></div>
+                <div class="post-img"><img src="../_assets/img/wpes-device.png" alt=""></div>
                 <a class="post-bookmark" href="#"><i class="lni lni-bookmark"></i></a>
          		<router-link :to="{path: 'device', query: { id: 1 }}"  class="btn btn-primary btn-sm read-more-btn">Detail</router-link>
                 <div class="post-content">
@@ -34,7 +34,7 @@
             <!-- Single Blog Card-->
             <div class="col-12 col-sm-6 col-lg-4">
               <div class="card blog-card list-card mb-3">
-                <div class="post-img"><img src="../assets/img/wpes-device.png" alt=""></div>
+                <div class="post-img"><img src="../_assets/img/wpes-device.png" alt=""></div>
                 <a class="post-bookmark" href="#"><i class="lni lni-bookmark"></i></a>
                 <a class="btn btn-primary btn-sm read-more-btn" href="blog-details.html">Detail</a>
                 <div class="post-content">
