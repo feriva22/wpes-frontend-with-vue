@@ -16,7 +16,7 @@ let awnOptions = {
 	position : 'top-left',
 	maxNotifications: 1,
 	durations : {
-		global : 3000,
+		global : 1000,
 		alert : 2000
 	}
 }

@@ -14,10 +14,11 @@
         <div class="back-button"><a v-on:click="backPage()"><i class="lni lni-arrow-left"></i></a></div>
         <!-- Page Title-->
         <div class="page-heading">
-          <h6 class="mb-0">Detail {{ device.name }}</h6>
+          <h6 class="mb-0">Detail Device {{ device.iddevice }}</h6>
         </div>
-        <!-- Navbar Toggler-->
+        <!-- Navbar Toggler
         <div class="suha-navbar-toggler d-flex justify-content-between flex-wrap" id="suhaNavbarToggler"><span></span><span></span><span></span></div>
+		-->	
       </div>
     </div>
     <!-- Sidenav Black Overlay-->
@@ -49,21 +50,6 @@
 		<slot/>	<!-- Content -->
 	</div>
 
-	 <!-- Footer Nav-->
-	 <!--
-    <div class="footer-nav-area" id="footerNav">
-      <div class="container h-100 px-0">
-        <div class="suha-footer-nav h-100">
-          <ul class="h-100 d-flex align-items-center justify-content-between">
-            <li ><router-link to="/"><i class="lni lni-home"></i>Home</router-link></li>
-            <li ><router-link to="/alldevice"><i class="lni lni-display-alt"></i>Devices</router-link></li>
-            <li ><router-link to="/setting"><i class="lni lni-cog"></i>Settings</router-link></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-	-->
-
   </div>
 </template>
 
@@ -73,21 +59,17 @@ export default {
   created() {
 	  
   },
+  computed: {
+	  device() {
+		  return this.$store.state.device.deviceDetail;
+	  }
+  },
   data () {
     return {
-		activeItem: 'home',
-		device: {
-			name: 'Device 1'
-		}
+		
     };
   },
   methods: {
-	isActive: function (menuItem) {
-      return this.activeItem === menuItem
-    },
-    setActive: function (menuItem) {
-      this.activeItem = menuItem // no need for Vue.set()
-	},
 	backPage: function(){
 		this.$router.go(-1);
 	}

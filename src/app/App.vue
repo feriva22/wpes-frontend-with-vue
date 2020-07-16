@@ -37,10 +37,12 @@ export default {
 	  }
   },
   watch:{
-	  /*$route(to,from){
+	  $route(to,from){
 		// clear alert on location change
-        this.$store.dispatch('alert/clear');
-	  }*/
+		//this.$store.dispatch('alert/clear');
+		for ( var i = 0; i < 99999; ++i )
+  			clearInterval( i );
+	  },
 	  alert: function(newAlert, oldAlert){
 		  console.log(newAlert,oldAlert);
 	  }

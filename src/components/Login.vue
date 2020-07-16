@@ -23,11 +23,11 @@
 					<button class="btn btn-primary btn-lg w-100" :disabled="loggingIn">Login</button>
 				</form>
 				</div>
-				<!-- Login Meta-->
+				<!-- Login Meta
 				<div class="login-meta-data">
 					<router-link :to="{path: '/forgotpassword'}"  class="forgot-password d-block mt-3 mb-1"> Forgot Password?</router-link>
 					<p class="mb-0">Didn't have an account?<router-link :to="{path: '/register'}"  class="ml-1">Register Now</router-link></p>
-				</div>
+				</div>-->
 			</div>
 			</div>
 		</div>

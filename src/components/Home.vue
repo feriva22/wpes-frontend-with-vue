@@ -19,21 +19,24 @@
             <h6 class="ml-1">LiveTime Monitoring</h6>
           </div>
           <div class="product-catagory-wrap">
-            <div class="row">
+
+
+            <div class="row" >
               <!-- Single Catagory Card-->
               <div class="col-12">
                 <div class="card mb-3 top-product-card">
                   <div class="card-body">
-                    <span class="badge badge-success">Device 1</span>
-                    <div ref="gaugeArea" class="product-thumbnail d-block">
+                    <span class="badge badge-success">Device {{device.iddevice}}</span>
+                    <div :ref="'gaugeArea'+device.iddevice" class="product-thumbnail d-block">
                     </div>
                     <a class="product-title d-block" href="single-product.html">Status Sensor Ketinggian Air</a>
-                    <p >Update Terakhir : <span>1 min ago</span></p>
+                    <p >Terakhir Update : <span>{{ summaryLastUpdate }}</span></p>
                     <a class="btn btn-primary btn-sm" href="#"><i class="lni lni-eye"></i></a>
                   </div>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -43,39 +46,90 @@
 <script>
 import LayoutDefault from '../layouts/LayoutDefault'; //tell will be use this layout
 import * as GaugeChart from 'gauge-chart/dist/bundle.js';
+import { deviceService } from '../_services';
+import moment from 'moment';
 
 export default {
   name: 'Home',
+  beforeDestroy() {
+	clearInterval(this.intervalChart);
+  },
   created() {
 	  this.$emit('update:layout',LayoutDefault);
+	  this.$store.dispatch('navigation/change', 'home' );
 	  this.$store.dispatch('users/getDetail', this.id_user );
+	  this.$store.dispatch('device/getDetail',1);
   },
   computed: {
 	  user() {
 		  return this.$store.state.users.loggedUser;
 	  },
+	  device() {
+		  return this.$store.state.device.deviceDetail;
+	  },
   },
+  watch: {
+	  device: function(value){
+		  if(typeof(value.iddevice) !== 'undefined'){
+			  this.initGaugeChartWater(this.$refs.gaugeArea1,value.iddevice);
+			  setInterval(() => {
+				  this.updateLastUpdateStat();
+			  },1000)
+			  this.intervalChart = setInterval(() => {
+			  	this.initGaugeChartWater(this.$refs.gaugeArea1,value.iddevice);
+			  },5000);
+		  }
+	  }
+  },
+ 
   mounted() {
-	  this.initGaugeChart(this.$refs.gaugeArea);
+	moment().locale('id');
+
   },
   data () {
     return {
 	  id_user: this.$store.state.authentication.user.id,
-		// Properties of the gauge
       waterLevelOption: {
         hasNeedle: true,
         needleColor: 'gray',
         needleUpdateSpeed: 1000,
         arcColors: ['red','yellow' ,'green'],
-        arcDelimiters: [30,60],
+        arcDelimiters: [25,50],
         rangeLabel: ['0', '100'],
-        centralLabel: '50%',
-      }
+	  },
+	  minFull: 5,
+	  maxCapacity: 40,
+	  gaugeChartElement : null,
+	  lastTimeUpdate: null,
+	  summaryLastUpdate: null,
+	  intervalChart: null
     }
   },
   methods: {
-	  initGaugeChart(element){
-		  GaugeChart.gaugeChart(element, 300, this.waterLevelOption).updateNeedle(50)
+	  updateLastUpdateStat(){
+		  this.summaryLastUpdate = moment(this.lastTimeUpdate,'YYYY-MM-DD HH:mm:ss').fromNow();
+	  },
+	  initGaugeChartWater(element,id_device){
+		  deviceService.getSensorData(id_device,'WATER_LEVEL',null,null,1)
+				.then(resp => {
+					//revert value if current value is 100% of maxCapacity so water is empty
+					let additionalMinFull = this.minFull/this.maxCapacity*100;
+					let current_percentage = parseInt(Math.abs((parseFloat(resp.data[0].value)/this.maxCapacity*100) - (100+additionalMinFull)));
+					if(current_percentage > 100 ) {current_percentage = 100};
+					this.waterLevelOption.centralLabel = current_percentage+'%';
+					if(typeof(element) !== 'undefined'){
+					  this.lastTimeUpdate = moment().format('YYYY-MM-DD HH:mm:ss') ;
+					  if(this.gaugeChartElement == null){
+						this.gaugeChartElement = GaugeChart.gaugeChart(element, 300, this.waterLevelOption);
+					  }else {
+						  this.gaugeChartElement.removeGauge();
+						  this.gaugeChartElement = GaugeChart.gaugeChart(element, 300, this.waterLevelOption);
+					  }
+					  this.gaugeChartElement.updateNeedle(current_percentage);
+					}
+				});
+
+		  
 	  }
   }
 }

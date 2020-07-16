@@ -9,29 +9,20 @@
 
 	<!-- Header Area-->
     <div class="header-area" id="headerArea">
-      <div v-if="isCommonPage" class="container h-100 d-flex align-items-center justify-content-between">
+      <div  class="container h-100 d-flex align-items-center justify-content-between">
         <!-- Logo Wrapper-->
         <div class="logo-wrapper" v-on:click="setActive('home')"><router-link to="/home"><img src="../_assets/img/logo-small.png" alt=""></router-link></div>
-        <!-- Search Form-->
+        <!-- Search Form
         <div class="top-search-form">
           <form action="" method="POST">
             <input class="form-control" type="search" placeholder="Enter your keyword">
             <button type="submit"><i class="lni lni-search"></i></button>
           </form>
-        </div>
-        <!-- Navbar Toggler-->
+        </div>-->
+        <!-- Navbar Toggler
+		
         <div class="suha-navbar-toggler d-flex flex-wrap" id="suhaNavbarToggler"><span></span><span></span><span></span></div>
-      </div>
-
-	  <div v-else class="container h-100 d-flex align-items-center justify-content-between">
-        <!-- Back Button-->
-        <div class="back-button"><a v-on:click="backPage()"><i class="lni lni-arrow-left"></i></a></div>
-        <!-- Page Title-->
-        <div class="page-heading">
-          <h6 class="mb-0">Detail {{ device.name }}</h6>
-        </div>
-        <!-- Navbar Toggler-->
-        <div class="suha-navbar-toggler d-flex justify-content-between flex-wrap" id="suhaNavbarToggler"><span></span><span></span><span></span></div>
+		-->
       </div>
     </div>
     <!-- Sidenav Black Overlay-->
@@ -69,7 +60,7 @@
         <div class="suha-footer-nav h-100">
           <ul class="h-100 d-flex align-items-center justify-content-between">
             <li v-on:click="setActive('home')" :class="{ active: isActive('home') }"><router-link to="/home"><i class="lni lni-home"></i>Home</router-link></li>
-            <li v-on:click="setActive('alldevice')" :class="{ active: isActive('alldevice') }"><router-link to="/alldevice"><i class="lni lni-display-alt"></i>Devices</router-link></li>
+            <li v-on:click="setActive('device')" :class="{ active: isActive('device') }"><router-link to="/alldevice"><i class="lni lni-display-alt"></i>Devices</router-link></li>
             <li v-on:click="setActive('setting')" :class="{ active: isActive('setting') }"><router-link to="/setting"><i class="lni lni-cog"></i>Settings</router-link></li>
           </ul>
         </div>
@@ -85,21 +76,21 @@ export default {
   created() {
 	  
   },
+  computed: {
+	  group() {
+		  return this.$store.state.navigation.group;
+	  },
+  },
   data () {
     return {
-		activeItem: 'home',
-		device: {
-			name: 'Device 1'
-		},
-		isCommonPage: true
     };
   },
   methods: {
 	isActive: function (menuItem) {
-      return this.activeItem === menuItem
+      return this.group === menuItem
     },
     setActive: function (menuItem) {
-      this.activeItem = menuItem // no need for Vue.set()
+	  this.$store.dispatch('navigation/change', menuItem );
 	},
 	backPage: function(){
 		this.$router.go(-1);

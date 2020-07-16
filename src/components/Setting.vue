@@ -3,9 +3,9 @@
 	  <div class="container">
         <!-- Settings Wrapper-->
         <div class="settings-wrapper py-3">
+			<!--
           <div class="card settings-card">
             <div class="card-body">
-              <!-- Single Settings-->
               <div class="single-settings d-flex align-items-center justify-content-between">
                 <div class="title"><i class="lni lni-alarm"></i><span>Notifications</span></div>
                 <div class="data-content">
@@ -22,7 +22,6 @@
           </div>
           <div class="card settings-card">
             <div class="card-body">
-              <!-- Single Settings-->
               <div class="single-settings d-flex align-items-center justify-content-between">
                 <div class="title"><i class="lni lni-night"></i><span>Night Mode</span></div>
                 <div class="data-content">
@@ -39,7 +38,6 @@
           </div>
           <div class="card settings-card">
             <div class="card-body">
-              <!-- Single Settings-->
               <div class="single-settings d-flex align-items-center justify-content-between">
                 <div class="title"><i class="lni lni-world"></i><span>Language</span></div>
                 <div class="data-content"><a href="language.html">English<i class="lni lni-chevron-right"></i></a></div>
@@ -48,7 +46,6 @@
           </div>
           <div class="card settings-card">
             <div class="card-body">
-              <!-- Single Settings-->
               <div class="single-settings d-flex align-items-center justify-content-between">
                 <div class="title"><i class="lni lni-question-circle"></i><span>Support</span></div>
                 <div class="data-content"><a class="pl-4" href="support.html"><i class="lni lni-chevron-right"></i></a></div>
@@ -57,13 +54,13 @@
           </div>
           <div class="card settings-card">
             <div class="card-body">
-              <!-- Single Settings-->
               <div class="single-settings d-flex align-items-center justify-content-between">
                 <div class="title"><i class="lni lni-lock"></i><span>Password<span>Updated 2 month ago</span></span></div>
                 <div class="data-content"><a href="change-password.html">Change<i class="lni lni-chevron-right"></i></a></div>
               </div>
             </div>
           </div>
+		  -->
 		  <div class="card settings-card">
             <div class="card-body">
               <!-- Single Settings-->
@@ -85,6 +82,7 @@ export default {
   name: 'Setting',
   created() {
 	  this.$emit('update:layout',LayoutDefault);
+	  this.$store.dispatch('navigation/change', 'setting');
   },
   data () {
     return {

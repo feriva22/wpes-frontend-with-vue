@@ -4,13 +4,13 @@
         <!-- Product Title & Meta Data-->
         <div class="product-title-meta-data bg-white mb-3 py-3">
           <div class="container">
-            <h5 class="post-title">Alat untuk Tangki Air Rumah</h5><a class="post-catagory mb-3 d-block" href="#">Device {{idDevice}}</a>
+            <h5 class="post-title">{{ device.name }}</h5><a class="post-catagory mb-3 d-block" href="#">Device {{ device.iddevice }}</a>
             <div class="post-meta-data d-flex align-items-center justify-content-between">
               <a class="d-flex align-items-center" href="#">
                 <span class="badge badge-success" style="color:white;">Registered</span>
                 <span ><i class="lni lni-cog"></i> Setting</span>
               </a>
-              <span><i class="lni lni-timer"></i>Updated 4 min ago</span>
+              <!--<span><i class="lni lni-timer"></i>Updated 4 min ago</span>-->
             </div>
           </div>
         </div>
@@ -40,40 +40,78 @@
 <script>
 import LayoutDetail from '../layouts/LayoutDetail'; //tell will be use this layout
 import * as Chartjs from 'chart.js/dist/Chart.bundle';
+import { deviceService } from '../_services';
+import moment from 'moment';
 
+const formatDate = 'YYYY-MM-DD hh:mm:ss';
 export default {
   name: 'Device',
   created() {
 	  this.$emit('update:layout',LayoutDetail);
+	  this.$store.dispatch('navigation/change', 'device');
+	  this.$store.dispatch('device/getDetail',this.$route.query.id);
+	  
+  },
+  computed: {
+	  device() {
+		  return this.$store.state.device.deviceDetail;
+	  }
+  },
+  watch: {
+	  device: function(value){
+		  //render chart
+	  	this.renderWaterLevelChart(value.iddevice);
+	  	this.renderTurbidityChart(value.iddevice);
+	  }
   },
   mounted() {
-	  this.idDevice = this.$route.query.id;
-
-	  //render chart
-	  var ctx = this.$refs.chart_1.getContext('2d');
-	  var ctx2 = this.$refs.chart_2.getContext('2d');
-	  new Chartjs(ctx, this.configChartjs);
-	  new Chartjs(ctx2, this.configChartjs);
+	  moment().locale('id');
+	  //id data
+	  this.ctx_waterlevel = this.$refs.chart_1.getContext('2d');
+	  this.ctx_turbidity =  this.$refs.chart_2.getContext('2d');
+	  
+  },
+  methods: {
+	  renderWaterLevelChart(id_device){
+		deviceService.getSensorData(id_device,'WATER_LEVEL',this.startDate.format(formatDate),this.endDate.format(formatDate))
+				.then(resp => {
+					let data_obj = resp.data.map(item => {
+						return { x: item.time, y: item.value }
+					});
+					let configWaterLevel = this.configChartjs;
+					configWaterLevel.data.datasets[0].data = data_obj;
+					new Chartjs(this.ctx_waterlevel, configWaterLevel);
+				});
+	  },
+	  renderTurbidityChart(id_device){
+		deviceService.getSensorData(id_device,'TURBIDITY',this.startDate.format(formatDate),this.endDate.format(formatDate))
+		.then(resp => {
+			let data_obj = resp.data.map(item => {
+				return { x: item.time, y: item.value}
+			});
+			let configTurbidity = this.configChartjs;
+			configTurbidity.data.datasets[0].data = data_obj;
+			configTurbidity.options.scales.yAxes[0].scaleLabel.labelString = 'Status';
+			new Chartjs(this.ctx_turbidity, configTurbidity);
+		});
+	  }
   },
   data () {
     return {
-		idDevice: null,
+		endDate: moment(),
+		startDate: moment().subtract(2,'week'), //default value 5 day ago
 		colorChartjs: Chartjs.helpers.color,
+		ctx_waterlevel: null ,
+		ctx_turbidity: null,
 		configChartjs: {
 			type: 'line',
 			data: {
 				datasets: [{
-					label: 'Dataset with string point data',
+					label: 'Dataset with point data',
 					backgroundColor: '#fffffff',
-					borderColor: '#000000',
+					borderColor: '#0000FF',
 					fill: false,
-					data: [{
-						x: 1,
-						y: 10123
-					}, {
-						x: 12,
-						y: 123
-					}],
+					data: [],
 				}]
 			},
 			options: {
@@ -86,23 +124,20 @@ export default {
 				scales: {
 					xAxes: [{
 						type: 'time',
-						display: true,
+						time: {
+							parser : formatDate,
+							tooltipFormat: 'll HH:mm'
+						},
 						scaleLabel: {
 							display: true,
-							labelString: 'Date'
-						},
-						ticks: {
-							major: {
-								fontStyle: 'bold',
-								fontColor: '#FF0000'
-							}
+							labelString: 'Waktu'
 						}
 					}],
 					yAxes: [{
 						display: true,
 						scaleLabel: {
-							display: false,
-							labelString: 'value'
+							display: true,
+							labelString: 'cm'
 						}
 					}]
 				}

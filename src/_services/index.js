@@ -2,6 +2,7 @@ import { authHeader,router } from '../_helpers';
 import axios from 'axios';
 import { store } from '../_store';
 export * from './user.service';
+export * from './device.service';
 
 //add request interceptors
 axios.interceptors.request.use(
