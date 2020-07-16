@@ -1,6 +1,7 @@
-import config from '../../config';
-import { authHeader } from '../_helpers';
+import { authHeader,router } from '../_helpers';
 import axios from 'axios';
+import { store } from '../_store';
+export * from './user.service';
 
 //add request interceptors
 axios.interceptors.request.use(
@@ -22,13 +23,22 @@ axios.interceptors.response.use((response) => {
 	return response
 }, function(error){
 	const originalRequest = error.config;
-	if(error.response.status === 401 && originalRequest.url ===
+	//check connection
+	if(!error.response){
+		router.push('/login').catch(()=>{});
+		return Promise.reject(error);
+	} else if(error.response.status === 401 && originalRequest.url ===
 		`${process.env.SERVER_URI}/refresh_token.php`){
-			logout();
-			router.push('/login');
+			store.dispatch('alert/confirm',{
+				message : 'Session Expired, Please Login !',
+				labels : 'Warning',
+				onOk : function() {
+					router.push('/login').catch(()=>{});
+				}
+			})
 			return Promise.reject(error);
 		}
-	if(error.response.status === 401 && !originalRequest._retry){
+	else if(error.response.status === 401 && !originalRequest._retry){
 		originalRequest._retry = true;
 		const refresh_token = JSON.parse(localStorage.getItem('user')).refresh_token;
 		return axios.post(`${process.env.SERVER_URI}/refresh_token.php`,
@@ -43,9 +53,11 @@ axios.interceptors.response.use((response) => {
 						}
 					})
 	}
-	return Promise.reject(error);
+	else {
+		return Promise.reject(error);
+	}
 })
 
 
 
-export * from './user.service';
+

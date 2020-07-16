@@ -1,22 +1,48 @@
 <template>
   <component :is="layout">
-	<div v-if="alert.message" :class="`alert ${alert.type}`">{{alert.message}}</div>
 	  <router-view :layout.sync="layout"/>
   </component>
 </template>
 
 <script>
+
 export default {
   name: 'app',
+  created() {
+	  //this.$store.dispatch('alert/error','testing');
+  },
   computed: {
 	  alert() {
-		  return this.$store.state.alert;
+		  const alertState = this.$store.state.alert;
+		  if(alertState.type !== null){
+			  if(alertState.type == 'error'){
+				  this.$awn.alert(alertState.message);
+			  }
+			  else if(alertState.type == 'success'){
+				  this.$awn.success(alertState.message);
+			  }
+			  else if(alertState.type == 'confirm'){
+				  this.$awn.confirm(
+  				    alertState.message,
+  				    alertState.onOk,
+  				    false,
+  				    {
+  				      labels: {
+  				        confirm: alertState.labels
+  				      }
+  				    }
+  				  )
+			  }
+		  }
 	  }
   },
   watch:{
-	  $route(to,from){
+	  /*$route(to,from){
 		// clear alert on location change
         this.$store.dispatch('alert/clear');
+	  }*/
+	  alert: function(newAlert, oldAlert){
+		  console.log(newAlert,oldAlert);
 	  }
   },
   data() {
@@ -26,3 +52,4 @@ export default {
   }
 }
 </script>
+

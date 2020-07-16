@@ -16,11 +16,12 @@ export const authentication = {
             userService.login(email, password)
                 .then(
                     user => {
-                        commit('loginSuccess', user);
+						commit('loginSuccess', user);
+						dispatch('alert/success','Sukses Login', { root: true });
                         router.push('/home');
                     },
                     error => {
-                        commit('loginFailure', error);
+						commit('loginFailure', error);
                         dispatch('alert/error', error, { root: true });
                     }
                 );

@@ -55,6 +55,9 @@ function handleResponse(response) {
 }
 
 function handleError(error){
+	if(typeof(error.response) == 'undefined' ){
+		return Promise.reject('Gagal Terhubung ke server');
+	}
 	const error_res = error.response;
 	return Promise.reject((error_res.data && error_res.data.message) || error_res.statusText);
 }

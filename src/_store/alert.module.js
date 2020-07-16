@@ -1,3 +1,4 @@
+
 export const alert = {
     namespaced: true,
     state: {
@@ -9,24 +10,26 @@ export const alert = {
             commit('success', message);
         },
         error({ commit }, message) {
-            commit('error', message);
+			commit('error', message);
         },
-        clear({ commit }) {
-            commit('clear');
-        }
+        confirm({ commit }, {message, labels, onOk}){
+			commit('confirm', {message, labels, onOk})
+		}
     },
     mutations: {
         success(state, message) {
-            state.type = 'alert-success';
+            state.type = 'success';
             state.message = message;
         },
         error(state, message) {
-            state.type = 'alert-danger';
+            state.type = 'error';
             state.message = message;
         },
-        clear(state) {
-            state.type = null;
-            state.message = null;
-        }
+        confirm(state, { message, labels, onOk}){
+			state.type = 'confirm';
+			state.message = message;
+			state.labels = labels;
+			state.onOk = onOk;
+		}
     }
 }
